@@ -5,12 +5,12 @@ import Navbar from "./components/navbar/navbar";
 import Table from "./components/gameboard/table";
 
 const CORRECT_PLAYER = 'Cookiezi';
-let attempts = 0;
 
 function App() {
   const [inputText, setInputText] = useState('');
   const [guessList, setGuessList] = useState<string[]>([]);
   const [isGameOver, setIsGameOver] = useState(false);
+  const [attempts, setAttempts] = useState(0);
   const [msg, setMsg] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -18,22 +18,21 @@ function App() {
   }
 
   const handleInputSubmit = () => {
-    attempts += 1;
     if (isGameOver) return; // guesses don't work after game ends
 
     const curGuess = inputText.trim();
-    setGuessList([...guessList, curGuess]);
-
     if (curGuess == '') return;
+    setGuessList([...guessList, curGuess]);
 
     if (curGuess === CORRECT_PLAYER) {
       setIsGameOver(true);
-      setMsg('Well done! Got it in ' + attempts + ' attempt(s).');
-    } else if (attempts >= 6) {
+      setMsg('Well done! Got it in ' + (attempts+1) + ' attempt(s).');
+    } else if (attempts >= 5) {
       setIsGameOver(true);
       setMsg('Game over. Correct answer: ' + CORRECT_PLAYER);
     } else {
       setInputText('');
+      setAttempts(attempts+1);
     }
   }
 
@@ -44,7 +43,7 @@ function App() {
       <input type="submit" value="Guess!" onClick={handleInputSubmit} disabled={isGameOver} />
       <p>{msg}</p>
       <Table guesses={guessList} />
-      <p>{attempts},{isGameOver.toString()},{guessList}</p>
+      <p>{inputText},{attempts},{isGameOver.toString()},{guessList}</p>
     </center>
   );
 }
