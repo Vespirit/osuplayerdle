@@ -43,7 +43,7 @@ function App() {
       <input type="submit" value="Guess!" onClick={handleInputSubmit} disabled={isGameOver} />
       <p>{msg}</p>
       <Table guesses={guessList} />
-      <p>{inputText},{attempts},{isGameOver.toString()},{guessList}</p>
+      {/*<p>{inputText},{attempts},{isGameOver.toString()},{guessList}</p> debug output*/}
     </center>
   );
 }
