@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import logo from "./logo.svg";
 import Table from "./gameboard/table";
 
-const CORRECT_PLAYER = 'Cookiezi';
-
 function PlayerDataGame() {
-  const [inputText, setInputText] = useState('');
+
+  const CORRECT_PLAYER = 'Cookiezi';
+
+  const [inputText, setInputText] = useState<string>('');
   const [guessList, setGuessList] = useState<string[]>([]);
-  const [isGameOver, setIsGameOver] = useState(false);
-  const [attempts, setAttempts] = useState(1);
-  const [msg, setMsg] = useState('');
+  const [isGameOver, setIsGameOver] = useState<boolean>(false);
+  const [attempts, setAttempts] = useState<number>(1);
+  const [msg, setMsg] = useState<string>('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -19,7 +20,8 @@ function PlayerDataGame() {
     if (isGameOver) return; // guesses don't work after game ends
 
     const curGuess = inputText.trim();
-    if (curGuess == '') return;
+    if (curGuess === '') return;
+    if (guessList.includes(curGuess)) return;
     setGuessList([...guessList, curGuess]);
 
     if (curGuess === CORRECT_PLAYER) {
