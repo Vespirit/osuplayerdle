@@ -8,9 +8,9 @@ function Row({ name }: Props) {
   return (
     <tr>
       {/*<td>Country</td>*/}
-      <td>{name}</td>
+      <td><center>{name}</center></td>
       {/*<td>Rank</td>*/}
-      {/*<td>Playcount</td>*/} // add these later
+      {/*<td>Playcount</td> // add these later*/} 
     </tr>
   );
 }
