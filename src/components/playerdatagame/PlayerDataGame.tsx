@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import logo from "./logo.svg";
 import Table from "./gameboard/table";
+import { SOLUTIONS } from "../solutions"
+import { startOfToday } from 'date-fns'
 
 function PlayerDataGame() {
 
-  const CORRECT_PLAYER = 'Cookiezi';
+  const getSolution = () => {
+    return SOLUTIONS[startOfToday().getTime() % SOLUTIONS.length];
+  }
+
+  const SOLUTION: string = getSolution().toString();
 
   const [inputText, setInputText] = useState<string>('');
   const [guessList, setGuessList] = useState<string[]>([]);
@@ -24,13 +30,15 @@ function PlayerDataGame() {
     if (guessList.includes(curGuess)) return;
     setGuessList([...guessList, curGuess]);
 
-    if (curGuess === CORRECT_PLAYER) {
+    if (curGuess === SOLUTION) {
       setIsGameOver(true);
       setMsg('Well done! Got it in ' + attempts.toString() + ' attempt(s).');
-    } else if (attempts >= 6) {
+    }
+    else if (attempts >= 6) {
       setIsGameOver(true);
-      setMsg('Game over. Correct answer: ' + CORRECT_PLAYER);
-    } else {
+      setMsg('Game over. Correct answer: ' + SOLUTION);
+    }
+    else {
       setInputText('');
       setAttempts(attempts+1);
     }
