@@ -5,6 +5,7 @@ import Navbar from "./components/navbar/navbar";
 import PlayerDataGame from "./components/playerdatagame/PlayerDataGame";
 
 function App() {
+
   return (
     <center>
       <Navbar />
