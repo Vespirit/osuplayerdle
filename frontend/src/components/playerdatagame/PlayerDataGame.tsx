@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import Table from "./gameboard/table";
 import { SOLUTIONS } from "../solutions";
 import { startOfToday } from "date-fns";
+import getRandomInt from "../../tools/random";
 
 type Player = {
   id: string;
@@ -13,13 +14,6 @@ type Player = {
 }
 
 function PlayerDataGame() {
-  const getRandomInt = (min: number, max: number, seed: number) => {
-    min = Math.ceil(min);
-    max = Math.ceil(max);
-    let rfl = Math.sin(seed) * 10000;
-    rfl = rfl - Math.floor(rfl);
-    return Math.floor(rfl * (max - min) + min);
-  };
 
   const getSolution = () => {
     return SOLUTIONS[
