@@ -3,7 +3,7 @@ import logo from "./logo.svg";
 import Table from "./gameboard/table";
 import { SOLUTIONS } from "../solutions";
 import { startOfToday } from "date-fns";
-import getRandomInt from "../../tools/random";
+import { getRandomInt } from "../../tools/random";
 
 type Player = {
   id: string;
@@ -15,13 +15,9 @@ type Player = {
 
 function PlayerDataGame() {
 
-  const getSolution = () => {
-    return SOLUTIONS[
-      getRandomInt(0, SOLUTIONS.length, startOfToday().getTime())
-    ];
-  };
-
-  const SOLUTION: string = getSolution().toString();
+  const SOLUTION: string = SOLUTIONS[
+    getRandomInt(0, SOLUTIONS.length, startOfToday().getTime())
+  ].toString();
 
   const [inputText, setInputText] = useState<string>("");
   const [guessList, setGuessList] = useState<string[]>([]);
