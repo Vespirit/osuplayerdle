@@ -7,11 +7,13 @@ type Props = {
 
 function Table({ guesses }: Props) {
   return (
-    <table width={600}>
-      {guesses.map((guess: string, i: number) => (
-        <Row guessNum={i} name={guess} />
-      ))}
-    </table>
+    <center>
+      <table width={600}>
+        {guesses.map((guess: string, i: number) => (
+          <Row guessNum={i} name={guess} />
+        ))}
+      </table>
+    </center>
   );
 }
 
