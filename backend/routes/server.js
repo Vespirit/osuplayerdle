@@ -14,7 +14,7 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use('/api/routes', players)
+app.use('/api/players', players)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)

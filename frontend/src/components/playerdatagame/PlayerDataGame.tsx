@@ -5,25 +5,34 @@ import { SOLUTIONS } from "../solutions";
 import { startOfToday } from "date-fns";
 import { getRandomInt } from "../../tools/random";
 
-type Player = {
-  id: string;
-  username: string;
-  country: string;
-  rank: number;
-  playcount: number;
-}
-
 function PlayerDataGame() {
 
-  const SOLUTION: string = SOLUTIONS[
-    getRandomInt(0, SOLUTIONS.length, startOfToday().getTime())
-  ].toString();
-
+  const [players, setPlayers] = useState<any[]>([]);
   const [inputText, setInputText] = useState<string>("");
   const [guessList, setGuessList] = useState<string[]>([]);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [attempts, setAttempts] = useState<number>(1);
   const [msg, setMsg] = useState<string>("");
+
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      const response = await fetch('/api/players');
+      const json = await response.json();
+
+      if (response.ok) {
+        setPlayers(json);
+      }
+      else {
+        setMsg("error response not ok")
+      }
+    }
+
+    fetchPlayers()
+  }, [])
+
+  const SOLUTION: string = SOLUTIONS[
+    getRandomInt(0, SOLUTIONS.length, startOfToday().getTime())
+  ].toString();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -50,7 +59,7 @@ function PlayerDataGame() {
   };
 
   return (
-    <>
+    <div className="PlayerDataGame">
       <input
         type="text"
         placeholder="Guess a player..."
@@ -66,7 +75,12 @@ function PlayerDataGame() {
       <p>{msg}</p>
       <Table guesses={guessList} />
       {/*<p>{inputText},{attempts},{isGameOver.toString()},{guessList}</p> debug output*/}
-    </>
+      <div className="Players">
+        {players && players.map((player) => (
+          <p key={player._id}>{player.username}</p>
+        ))}
+      </div>
+    </div>
   );
 }
 
