@@ -81,7 +81,7 @@ function PlayerDataGame() {
           disabled={isGameOver}
         />
       </div>
-      <Table lookup={playerLookup} guesses={guessList} />
+      <Table lookup={playerLookup} guesses={guessList} solution={solution} />
       <p>{msg}</p>
     </div>
   );
