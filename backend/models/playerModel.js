@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const playerSchema = new Schema({
+const playerSchema = new mongoose.Schema({
     _id: {
         type: Number,
         required: true
