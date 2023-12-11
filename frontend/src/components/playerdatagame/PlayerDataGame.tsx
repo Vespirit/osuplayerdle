@@ -75,20 +75,22 @@ function PlayerDataGame() {
 
   return (
     <div className="PlayerDataGame">
-      <input
-        type="text"
-        placeholder="Guess a player..."
-        value={inputText}
-        onChange={handleInputChange}
-      />
-      <input
-        type="submit"
-        value="Guess!"
-        onClick={handleInputSubmit}
-        disabled={isGameOver}
-      />
-      <p>{msg}</p>
+      <div className="InputFields">
+        <input
+          type="text"
+          placeholder="Guess a player..."
+          value={inputText}
+          onChange={handleInputChange}
+        />
+        <input
+          type="submit"
+          value="Guess!"
+          onClick={handleInputSubmit}
+          disabled={isGameOver}
+        />
+      </div>
       <Table lookup={playerLookup} guesses={guessList} />
+      <p>{msg}</p>
     </div>
   ); // TODO: why is playerlookup undefined
 }
