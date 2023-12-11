@@ -2,12 +2,22 @@ import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
 import Table from "./gameboard/table";
 import { startOfToday } from "date-fns";
-import { getRandomInt } from "../../tools/random";
+import { getRandomInt } from "../../lib/random";
+
+export type PlayerProps = {
+  _id: number,
+  username: string,
+  country: string,
+  rank: number,
+  playcount: number
+}
+
+export type PlayerLookup = Map<string, PlayerProps>;
 
 function PlayerDataGame() {
 
-  const [playerList, setPlayerList] = useState<any>([]);
-  const [solution, setSolution] = useState("");
+  const [playerLookup, setPlayerLookup] = useState<PlayerLookup>(new Map());
+  const [solution, setSolution] = useState<string>("");
   const [inputText, setInputText] = useState<string>("");
   const [guessList, setGuessList] = useState<string[]>([]);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
@@ -16,21 +26,26 @@ function PlayerDataGame() {
 
   useEffect(() => { // fetch player list from api
     const fetchPlayers = async () => {
-      const response = await fetch('/api/players');
+      const response: Response = await fetch('/api/players');
       const json = await response.json();
 
       if (response.ok) {
-        setPlayerList(json);
+        const numPlayers = json.reduce((accumulator: number, player: PlayerProps) => {
+          setPlayerLookup(new Map(playerLookup.set(player.username, player)));
+          accumulator++;
+          return accumulator;
+        }, 0);
+
         setSolution(json[
-          getRandomInt(0, json.length, startOfToday().getTime())
+          getRandomInt(0, numPlayers, startOfToday().getTime())
         ].username);
       }
       else {
-        setMsg("error response not ok")
+        setMsg("error response not ok");
       }
     }
-    fetchPlayers()
-  }, []);
+    fetchPlayers();
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -47,10 +62,12 @@ function PlayerDataGame() {
     if (curGuess === solution) {
       setIsGameOver(true);
       setMsg("Well done! Got it in " + attempts.toString() + " attempt(s).");
-    } else if (attempts >= 6) {
+    }
+    else if (attempts >= 6) {
       setIsGameOver(true);
       setMsg("Game over. Correct answer: " + solution);
-    } else {
+    }
+    else {
       setInputText("");
       setAttempts(attempts + 1);
     }
@@ -71,15 +88,9 @@ function PlayerDataGame() {
         disabled={isGameOver}
       />
       <p>{msg}</p>
-      <Table guesses={guessList} />
-      {/*<p>{inputText},{attempts},{isGameOver.toString()},{guessList}</p> debug output*/}
-      <div className="Players">
-        {playerList && playerList.map((player: { _id: React.Key | null | undefined; username: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
-          <p key={player._id}>{player.username}</p>
-        ))}
-      </div>
+      <Table lookup={playerLookup} guesses={guessList} />
     </div>
-  );
+  ); // TODO: why is playerlookup undefined
 }
 
 export default PlayerDataGame;

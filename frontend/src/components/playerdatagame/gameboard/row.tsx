@@ -2,17 +2,22 @@ import React from "react";
 
 type Props = {
   guessNum: number;
-  name: string;
+  id: number | undefined;
+  username: string;
+  country: string | undefined;
+  rank: number | undefined;
+  playcount: number | undefined;
 };
 
-function Row({ guessNum, name }: Props) {
+function Row({ guessNum, id, username, country, rank, playcount}: Props) {
   return (
     <tr>
       <td><center>{guessNum+1}</center></td>
-      {/*<td>Country</td>*/}
-      <td><center>{name}</center></td>
-      {/*<td>Rank</td>*/}
-      {/*<td>Playcount</td> // add these later*/} 
+      <td>{id}</td>
+      <td>{country}</td>
+      <td>{username}</td>
+      <td>{rank}</td>
+      <td>{playcount}</td>
     </tr>
   );
 }
