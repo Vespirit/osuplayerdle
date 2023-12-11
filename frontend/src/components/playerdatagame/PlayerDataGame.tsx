@@ -7,7 +7,7 @@ import Table from "./gameboard/table";
 // tools
 import { startOfToday } from "date-fns";
 import { getRandomInt } from "../../lib/random";
-import { PlayerProps, PlayerLookup } from "../../lib/types";
+import { PlayerLookup } from "../../lib/types";
 
 function PlayerDataGame() {
 
@@ -25,14 +25,11 @@ function PlayerDataGame() {
       const json = await response.json();
 
       if (response.ok) {
-        const numPlayers = json.reduce((accumulator: number, player: PlayerProps) => {
+        for (const player of json) {
           setPlayerLookup(new Map(playerLookup.set(player.username, player)));
-          accumulator++;
-          return accumulator;
-        }, 0);
-
+        }
         setSolution(json[
-          getRandomInt(0, numPlayers, startOfToday().getTime())
+          getRandomInt(0, json.length, startOfToday().getTime())
         ].username);
       }
       else {
@@ -87,7 +84,7 @@ function PlayerDataGame() {
       <Table lookup={playerLookup} guesses={guessList} />
       <p>{msg}</p>
     </div>
-  ); // TODO: why is playerlookup undefined
+  );
 }
 
 export default PlayerDataGame;
