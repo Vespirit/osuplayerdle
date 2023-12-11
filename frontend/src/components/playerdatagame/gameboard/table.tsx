@@ -1,6 +1,6 @@
 import React from "react";
 import Row from "./row";
-import { PlayerLookup, PlayerProps } from "../PlayerDataGame";
+import { PlayerLookup, PlayerProps } from "../../../lib/types";
 
 type Props = {
   lookup: PlayerLookup;

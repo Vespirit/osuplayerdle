@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import logo from "./logo.svg";
+
+// components
 import Table from "./gameboard/table";
+
+// tools
 import { startOfToday } from "date-fns";
 import { getRandomInt } from "../../lib/random";
-
-export type PlayerProps = {
-  _id: number,
-  username: string,
-  country: string,
-  rank: number,
-  playcount: number
-}
-
-export type PlayerLookup = Map<string, PlayerProps>;
+import { PlayerProps, PlayerLookup } from "../../lib/types";
 
 function PlayerDataGame() {
 
