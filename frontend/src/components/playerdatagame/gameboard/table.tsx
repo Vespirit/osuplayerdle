@@ -17,10 +17,12 @@ function Table({ lookup, guesses, solution }: Props) {
         {guesses.map((guess: string, i: number) => {
           const pp: PlayerProps | undefined = lookup.get(guess);
           const sp: PlayerProps | undefined = lookup.get(solution);
-          const idLower: boolean = (pp?._id || 0) < (sp?._id || 0);
+          const idLower: boolean = (pp?._id || 0) > (sp?._id || 0);
           const rankLower: boolean = (pp?.rank || 0) < (sp?.rank || 0);
-          const playcountLower: boolean = (pp?.playcount || 0) < (sp?.playcount || 0);
-          const countryEqual: boolean = (pp?.country || "") === (sp?.country || "");
+          const playcountLower: boolean = 
+            (pp?.playcount || 0) > (sp?.playcount || 0);
+          const countryEqual: boolean = 
+            (pp?.country || "") === (sp?.country || "");
           return <Row
             guessNum={i}
             id = {pp?._id}

@@ -14,8 +14,9 @@ type Props = {
 };
 
 function Row({
-  guessNum, id, username, country, rank, playcount,
-  idLower, rankLower, playcountLower, countryEqual}: Props) {
+    guessNum, id, username, country, rank, playcount,
+    idLower, rankLower, playcountLower, countryEqual
+  }: Props) {
   let idArrow = '^';
   let rankArrow = '^';
   let playcountArrow = '^';
