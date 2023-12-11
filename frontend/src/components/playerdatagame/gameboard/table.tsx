@@ -10,7 +10,7 @@ type Props = {
 function Table({ lookup, guesses }: Props) {
   return (
     <center>
-      <table width={600}>
+      <table width="100%">
         {guesses.map((guess: string, i: number) => {
           const pp: PlayerProps | undefined = lookup.get(guess);
           return <Row
