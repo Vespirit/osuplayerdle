@@ -3,7 +3,7 @@ import logo from "./logo.svg";
 
 // components
 import Table from "./gameboard/table";
-import PlayerForm from "../playerform/PlayerForm";
+import PlayerForm from "../../playerform/PlayerForm";
 
 // tools
 import { startOfToday } from "date-fns";
