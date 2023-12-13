@@ -1,4 +1,5 @@
 import { useState } from "react";
+import './PlayerForm.css'
 
 type Props = {
     inputOptions: string[];
@@ -14,7 +15,7 @@ function PlayerForm({inputOptions, onSubmit}: Props) {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputText(e.target.value);
 
-        const filtered = inputOptions.filter((option: string) => 
+        const filtered: string[] = inputOptions.filter((option: string) => 
             option.toLowerCase().includes(inputText.toLowerCase())
         );
         setInputOptionsFiltered(filtered);
