@@ -13,10 +13,12 @@ function PlayerForm({inputOptions, onSubmit}: Props) {
     const [inputOptionsFiltered, setInputOptionsFiltered] = useState<string[]>([]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputText(e.target.value);
+        const newInputText = e.target.value;
+        setInputText(newInputText);
+        setIsDropdownOpen(newInputText.length > 0); // only show dropdown if text isnt empty
 
         const filtered: string[] = inputOptions.filter((option: string) => 
-            option.toLowerCase().includes(inputText.toLowerCase())
+            option.toLowerCase().includes(newInputText.toLowerCase())
         );
         setInputOptionsFiltered(filtered);
     };
@@ -42,9 +44,7 @@ function PlayerForm({inputOptions, onSubmit}: Props) {
                     placeholder="Guess a player!"
                     value={inputText}
                     onChange={handleInputChange}
-                    onClick={() => setIsDropdownOpen(true)}
                 />
-
                 <div className="dropdown">
                     {isDropdownOpen && (
                         <div className="dropdown-options">
