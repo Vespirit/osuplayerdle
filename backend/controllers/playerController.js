@@ -20,7 +20,7 @@ const getPlayer = async (req, res) => {
 
 // get all players
 const getPlayers = async (_, res) => {
-    const players = await Player.find({}).sort({rank: -1})
+    const players = await Player.find({}).sort({rank: 1})
     res.status(200).json(players)
 }
 
