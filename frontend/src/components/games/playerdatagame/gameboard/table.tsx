@@ -2,7 +2,7 @@ import React from "react";
 // components
 import Row from "./row";
 //types
-import { PlayerLookup, PlayerProps } from "../../../lib/types";
+import { PlayerLookup, PlayerProps } from "../../../../lib/types";
 
 type Props = {
   lookup: PlayerLookup;

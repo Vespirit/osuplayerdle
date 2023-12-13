@@ -3,17 +3,19 @@ import logo from "./logo.svg";
 
 // components
 import Table from "./gameboard/table";
+import PlayerForm from "../playerform/PlayerForm";
 
 // tools
 import { startOfToday } from "date-fns";
-import { getRandomInt } from "../../lib/random";
-import { PlayerLookup } from "../../lib/types";
+import { getRandomInt } from "../../../lib/random";
+import { PlayerLookup, PlayerProps } from "../../../lib/types";
 
 function PlayerDataGame() {
 
   const [playerLookup, setPlayerLookup] = useState<PlayerLookup>(new Map());
   const [solution, setSolution] = useState<string>("");
-  const [inputText, setInputText] = useState<string>("");
+  const [inputOptions, setInputOptions] = useState<string[]>([]);
+
   const [guessList, setGuessList] = useState<string[]>([]);
   const [isGameOver, setIsGameOver] = useState<boolean>(false);
   const [attempts, setAttempts] = useState<number>(1);
@@ -28,6 +30,8 @@ function PlayerDataGame() {
         for (const player of json) {
           setPlayerLookup(new Map(playerLookup.set(player.username, player)));
         }
+        setInputOptions(json.map((player: PlayerProps) => player.username));
+
         setSolution(json[
           getRandomInt(0, json.length, startOfToday().getTime())
         ].username);
@@ -39,11 +43,9 @@ function PlayerDataGame() {
     fetchPlayers();
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputText(e.target.value);
-  };
-
-  const handleInputSubmit = () => {
+  const handleInputSubmit = (inputText: string) => {
+    /* assumes inputText is valid in the player list
+    */
     if (isGameOver) return; // guesses don't work after game ends
 
     const curGuess = inputText.trim();
@@ -60,29 +62,20 @@ function PlayerDataGame() {
       setMsg("Game over. Correct answer: " + solution);
     }
     else {
-      setInputText("");
       setAttempts(attempts + 1);
     }
   };
 
   return (
     <div className="PlayerDataGame">
-      <div className="InputFields">
-        <input
-          type="text"
-          placeholder="Guess a player..."
-          value={inputText}
-          onChange={handleInputChange}
-        />
-        <input
-          type="submit"
-          value="Guess!"
-          onClick={handleInputSubmit}
-          disabled={isGameOver}
-        />
-      </div>
-      <Table lookup={playerLookup} guesses={guessList} solution={solution} />
+
       <p>{msg}</p>
+      <Table lookup={playerLookup} guesses={guessList} solution={solution} />
+
+      <PlayerForm 
+        onSubmit={handleInputSubmit}
+        inputOptions={inputOptions}
+      />
     </div>
   );
 }

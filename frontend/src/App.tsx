@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // components
 import Navbar from "./components/navbar/navbar";
-import PlayerDataGame from "./components/playerdatagame/PlayerDataGame";
+import PlayerDataGame from "./components/games/playerdatagame/PlayerDataGame";
 
 function App() {
 
