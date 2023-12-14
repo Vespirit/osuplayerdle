@@ -19,7 +19,7 @@ function PlayerForm({inputOptions, onSubmit}: Props) {
 
         const filtered: string[] = inputOptions.filter((option: string) => 
             option.toLowerCase().includes(newInputText.toLowerCase())
-        );
+        ).slice(0, 10); // filtered options contains a max of 10 options
         setInputOptionsFiltered(filtered);
     };
 
