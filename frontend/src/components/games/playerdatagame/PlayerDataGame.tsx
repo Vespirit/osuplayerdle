@@ -41,7 +41,7 @@ function PlayerDataGame() {
       }
     }
     fetchPlayers();
-  });
+  }, []);
 
   const handleInputSubmit = (inputText: string) => {
     /* assumes inputText is valid in the player list
