@@ -68,10 +68,11 @@ function PlayerDataGame() {
 
   return (
     <div className="PlayerDataGame">
-
-      <p>{msg}</p>
+      {isGameOver && (<div className="Popup">
+        <p>Good job! Got it in {attempts} attempts.</p>
+        <button>Share</button>
+      </div>)}
       <Table lookup={playerLookup} guesses={guessList} solution={solution} />
-
       <PlayerForm 
         onSubmit={handleInputSubmit}
         inputOptions={inputOptions}
