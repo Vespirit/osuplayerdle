@@ -14,6 +14,14 @@ function Table({ lookup, guesses, solution }: Props) {
   return (
     <center>
       <table width="100%">
+        <tr>
+          <td>Guess</td>
+          <td>Username</td>
+          <td>Rank</td>
+          <td>Country</td>
+          <td>Playcount</td>
+          <td>ID</td>
+        </tr>
         {guesses.map((guess: string, i: number) => {
           const pp: PlayerProps | undefined = lookup.get(guess);
           const sp: PlayerProps | undefined = lookup.get(solution);
