@@ -35,7 +35,6 @@ function PlayerDataGame() {
                 setInputOptions(
                     json.map((player: PlayerProps) => player.username)
                 );
-
                 setSolution(
                     json[getRandomInt(0, json.length, startOfToday().getTime())]
                         .username
@@ -69,22 +68,22 @@ function PlayerDataGame() {
     };
 
     return (
-        <div className="PlayerDataGame">
+        <div className="PlayerDataGame">   
+            {guessList.length>0 && <Table
+                lookup={playerLookup}
+                guesses={guessList}
+                solution={solution}
+            />}
+            {!isGameOver && <PlayerForm
+                onSubmit={handleInputSubmit}
+                inputOptions={inputOptions}
+            />}
             {isGameOver && (
                 <div className="Popup">
                     <p>{msg}</p>
                     <button>Share</button>
                 </div>
             )}
-            {guessList.length>0 && <Table
-                lookup={playerLookup}
-                guesses={guessList}
-                solution={solution}
-            />}
-            <PlayerForm
-                onSubmit={handleInputSubmit}
-                inputOptions={inputOptions}
-            />
         </div>
     );
 }
