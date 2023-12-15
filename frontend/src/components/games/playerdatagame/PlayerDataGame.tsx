@@ -40,8 +40,6 @@ function PlayerDataGame() {
                     json[getRandomInt(0, json.length, startOfToday().getTime())]
                         .username
                 );
-            } else {
-                setMsg("error response not ok");
             }
         };
         fetchPlayers();
@@ -74,15 +72,15 @@ function PlayerDataGame() {
         <div className="PlayerDataGame">
             {isGameOver && (
                 <div className="Popup">
-                    <p>Good job! Got it in {attempts} attempts.</p>
+                    <p>{msg}</p>
                     <button>Share</button>
                 </div>
             )}
-            <Table
+            {guessList.length>0 && <Table
                 lookup={playerLookup}
                 guesses={guessList}
                 solution={solution}
-            />
+            />}
             <PlayerForm
                 onSubmit={handleInputSubmit}
                 inputOptions={inputOptions}
