@@ -17,14 +17,14 @@ function Row({
     guessNum, id, username, country, rank, playcount,
     idLower, rankLower, playcountLower, countryEqual
   }: Props) {
-  let idArrow = '^';
-  let rankArrow = '^';
-  let playcountArrow = '^';
-  let countryArrow = '!='
-  if (idLower) idArrow = 'v';
-  if (rankLower) rankArrow = 'v';
-  if (playcountLower) playcountArrow = 'v';
-  if (countryEqual) countryArrow = '=';
+  let idArrow = '⬆️';
+  let rankArrow = '⬆️';
+  let playcountArrow = '⬆️';
+  let countryArrow = '❌'
+  if (idLower) idArrow = '⬇️';
+  if (rankLower) rankArrow = '⬇️';
+  if (playcountLower) playcountArrow = '⬇️';
+  if (countryEqual) countryArrow = '✅';
   return (
     <tr>
       <td><center>{guessNum+1}</center></td>
