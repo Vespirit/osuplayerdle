@@ -61,7 +61,7 @@ function PlayerDataGame() {
             );
         } else if (attempts >= 6) {
             setIsGameOver(true);
-            setMsg("Game over. Correct answer: " + solution);
+            setMsg("Game over! Correct answer: " + solution);
         } else {
             setAttempts(attempts + 1);
         }
