@@ -11,9 +11,11 @@ import { getRandomInt } from "../../../lib/random";
 import { PlayerLookup, PlayerProps } from "../../../lib/types";
 
 function PlayerDataGame() {
-    const [playerLookup, setPlayerLookup] = useState<PlayerLookup>(new Map());
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    const [playerLookup, setPlayerLookup] = useState<PlayerLookup>(new Map()); // maps usernames to player info
     const [solution, setSolution] = useState<string>("");
-    const [inputOptions, setInputOptions] = useState<string[]>([]);
+    const [inputOptions, setInputOptions] = useState<string[]>([]); // list of usernames
 
     const [guessList, setGuessList] = useState<string[]>([]);
     const [isGameOver, setIsGameOver] = useState<boolean>(false);
@@ -39,7 +41,10 @@ function PlayerDataGame() {
                     json[getRandomInt(0, json.length, startOfToday().getTime())]
                         .username
                 );
+            } else {
+                console.error("Error fetching users");
             }
+            setIsLoading(false);
         };
         fetchPlayers();
     }, []);
@@ -76,7 +81,7 @@ function PlayerDataGame() {
                     solution={solution}
                 />
             )}
-            {!isGameOver && (
+            {!isGameOver && !isLoading && (
                 <PlayerForm
                     onSubmit={handleInputSubmit}
                     inputOptions={inputOptions}
