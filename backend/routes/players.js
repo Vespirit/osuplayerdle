@@ -1,10 +1,10 @@
-const express = require('express')
-const { getPlayer, getPlayers } = require('../controllers/playerController')
-const router = express.Router()
+const express = require("express");
+const { getPlayer, getPlayers } = require("../controllers/playerController");
+const router = express.Router();
 
 // GET a player
-router.get('/:id', getPlayer)
+router.get("/:id", getPlayer);
 // GET all players
-router.get('/', getPlayers)
+router.get("/", getPlayers);
 
-module.exports = router
+module.exports = router;

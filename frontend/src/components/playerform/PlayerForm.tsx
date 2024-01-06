@@ -1,25 +1,28 @@
 import { useState } from "react";
-import './PlayerForm.css'
+import "./PlayerForm.css";
 
 type Props = {
     inputOptions: string[];
     onSubmit: (inputText: string) => void;
-}
+};
 
-function PlayerForm({inputOptions, onSubmit}: Props) {
-
+function PlayerForm({ inputOptions, onSubmit }: Props) {
     const [inputText, setInputText] = useState<string>("");
     const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
-    const [inputOptionsFiltered, setInputOptionsFiltered] = useState<string[]>([]);
+    const [inputOptionsFiltered, setInputOptionsFiltered] = useState<string[]>(
+        []
+    );
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newInputText = e.target.value;
         setInputText(newInputText);
         setIsDropdownOpen(newInputText.length > 0); // only show dropdown if text isnt empty
 
-        const filtered: string[] = inputOptions.filter((option: string) => 
-            option.toLowerCase().includes(newInputText.toLowerCase())
-        ).slice(0, 10); // filtered options contains a max of 10 options
+        const filtered: string[] = inputOptions
+            .filter((option: string) =>
+                option.toLowerCase().includes(newInputText.toLowerCase())
+            )
+            .slice(0, 10); // filtered options contains a max of 10 options
         setInputOptionsFiltered(filtered);
     };
 
@@ -34,7 +37,7 @@ function PlayerForm({inputOptions, onSubmit}: Props) {
         if (!inputOptions.includes(inputText)) return;
 
         onSubmit(inputText);
-    }
+    };
 
     return (
         <form onSubmit={handleSubmit}>
@@ -65,7 +68,7 @@ function PlayerForm({inputOptions, onSubmit}: Props) {
                 <button type="submit">Guess!</button>
             </div>
         </form>
-    )
+    );
 }
 
 export default PlayerForm;

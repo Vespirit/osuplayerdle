@@ -68,16 +68,20 @@ function PlayerDataGame() {
     };
 
     return (
-        <div className="PlayerDataGame">   
-            {guessList.length>0 && <Table
-                lookup={playerLookup}
-                guesses={guessList}
-                solution={solution}
-            />}
-            {!isGameOver && <PlayerForm
-                onSubmit={handleInputSubmit}
-                inputOptions={inputOptions}
-            />}
+        <div className="PlayerDataGame">
+            {guessList.length > 0 && (
+                <Table
+                    lookup={playerLookup}
+                    guesses={guessList}
+                    solution={solution}
+                />
+            )}
+            {!isGameOver && (
+                <PlayerForm
+                    onSubmit={handleInputSubmit}
+                    inputOptions={inputOptions}
+                />
+            )}
             {isGameOver && (
                 <div className="Popup">
                     <p>{msg}</p>
