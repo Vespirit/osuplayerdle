@@ -90,8 +90,7 @@ function PlayerDataGame() {
         const pp: PlayerProps = await fetchPlayer(curGuess);
         setGuessProps([...guessProps, pp]);
 
-        const sp: PlayerProps = solutionProps;
-        setGuessHints([...guessHints, hint(pp, sp)]);
+        setGuessHints([...guessHints, hint(pp, solutionProps)]);
 
         if (curGuess === solution) {
             setIsGameOver(true);
