@@ -30,6 +30,7 @@ function PlayerDataGame() {
     const [isGameOver, setIsGameOver] = useState<boolean>(false);
     const [attempts, setAttempts] = useState<number>(1);
     const [msg, setMsg] = useState<string>("");
+    const [shareConfirmation, setShareConfirmation] = useState<string>("");
 
     const fetchPlayer = async (username: string) => {
         const response: Response = await fetch(`/players/${username}`);
@@ -106,12 +107,19 @@ function PlayerDataGame() {
     };
 
     const copyResults = async () => {
-        await window.navigator.clipboard.writeText(
-            guessHints.reduce(
-                (acc, guessHint) => acc + guessHint.join("") + "\n",
-                "osu!playerdle results: \n"
-            ) + "Play at <url>"
-        );
+        await window.navigator.clipboard
+            .writeText(
+                guessHints.reduce(
+                    (acc, guessHint) => acc + guessHint.join("") + "\n",
+                    "osu!playerdle results: \n"
+                ) + "Play at <url>"
+            )
+            .then(() => {
+                setShareConfirmation("Results copied to clipboard.");
+            })
+            .catch((err: any) => {
+                setShareConfirmation("Unable to copy to clipboard " + err);
+            });
     };
 
     return (
@@ -135,6 +143,7 @@ function PlayerDataGame() {
                     <button id="shareButton" onClick={copyResults}>
                         Share
                     </button>
+                    <p>{shareConfirmation}</p>
                 </div>
             )}
         </div>
