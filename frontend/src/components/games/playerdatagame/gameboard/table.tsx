@@ -3,6 +3,7 @@ import React from "react";
 import Row from "./row";
 //types
 import { PlayerLookup, PlayerProps } from "../../../../lib/types";
+import * as hints from "../../../../lib/hints";
 
 type Props = {
     lookup: PlayerLookup;
@@ -25,25 +26,20 @@ function Table({ lookup, guesses, solution }: Props) {
                 {guesses.map((guess: string, i: number) => {
                     const pp: PlayerProps | undefined = lookup.get(guess);
                     const sp: PlayerProps | undefined = lookup.get(solution);
-                    const idLower: boolean = (pp?._id || 0) > (sp?._id || 0);
-                    const rankLower: boolean =
-                        (pp?.rank || 0) < (sp?.rank || 0);
-                    const playcountLower: boolean =
-                        (pp?.playcount || 0) > (sp?.playcount || 0);
-                    const countryEqual: boolean =
-                        (pp?.country || "") === (sp?.country || "");
                     return (
                         <Row
-                            guessNum={i}
-                            id={pp?._id}
+                            guessNum={i.toString()}
+                            id={pp?._id + hints.numberHint(sp?._id, pp?._id)}
                             username={guess}
-                            country={pp?.country}
-                            rank={pp?.rank}
-                            playcount={pp?.playcount}
-                            idLower={idLower}
-                            rankLower={rankLower}
-                            playcountLower={playcountLower}
-                            countryEqual={countryEqual}
+                            country={
+                                pp?.country +
+                                hints.countryHint(sp?.country, pp?.country)
+                            }
+                            rank={pp?.rank + hints.rankHint(sp?.rank, pp?.rank)}
+                            playcount={
+                                pp?.playcount +
+                                hints.numberHint(sp?.playcount, pp?.playcount)
+                            }
                         />
                     );
                 })}

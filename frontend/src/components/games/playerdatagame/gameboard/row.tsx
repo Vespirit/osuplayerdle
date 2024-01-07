@@ -1,46 +1,23 @@
 import React from "react";
 
 type Props = {
-    guessNum: number;
-    id: number | undefined;
+    guessNum: string;
+    id: string;
     username: string;
-    country: string | undefined;
-    rank: number | undefined;
-    playcount: number | undefined;
-    idLower: boolean;
-    rankLower: boolean;
-    playcountLower: boolean;
-    countryEqual: boolean;
+    country: string;
+    rank: string;
+    playcount: string;
 };
 
-function Row({
-    guessNum,
-    id,
-    username,
-    country,
-    rank,
-    playcount,
-    idLower,
-    rankLower,
-    playcountLower,
-    countryEqual,
-}: Props) {
-    let idArrow = "⬆️";
-    let rankArrow = "⬆️";
-    let playcountArrow = "⬆️";
-    let countryArrow = "❌";
-    if (idLower) idArrow = "⬇️";
-    if (rankLower) rankArrow = "⬇️";
-    if (playcountLower) playcountArrow = "⬇️";
-    if (countryEqual) countryArrow = "✅";
+function Row({ guessNum, id, username, country, rank, playcount }: Props) {
     return (
         <tr>
             <td>{guessNum + 1}</td>
             <td>{username}</td>
-            <td>{rank + " " + rankArrow}</td>
-            <td>{country + " " + countryArrow}</td>
-            <td>{playcount + " " + playcountArrow}</td>
-            <td>{id + " " + idArrow}</td>
+            <td>{rank}</td>
+            <td>{country}</td>
+            <td>{playcount}</td>
+            <td>{id}</td>
         </tr>
     );
 }
