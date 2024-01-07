@@ -8,46 +8,65 @@ import PlayerForm from "../../playerform/PlayerForm";
 // tools
 import { startOfToday } from "date-fns";
 import { getRandomInt } from "../../../lib/random";
-import { PlayerLookup, PlayerProps } from "../../../lib/types";
+import { PlayerProps } from "../../../lib/types";
 
 function PlayerDataGame() {
-    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(true); // state for if api is being fetched
 
-    const [playerLookup, setPlayerLookup] = useState<PlayerLookup>(new Map()); // maps usernames to player info
     const [solution, setSolution] = useState<string>("");
-    const [inputOptions, setInputOptions] = useState<string[]>([]); // list of usernames
+    const [solutionProps, setSolutionProps] = useState<PlayerProps>();
+    const [usernames, setUsernames] = useState<string[]>([]); // list of usernames
 
     const [guessList, setGuessList] = useState<string[]>([]);
+    const [guessProps, setGuessProps] = useState<PlayerProps[]>([]);
+    const [guessHints, setGuessHints] = useState<string[]>([]); // emojis used for guess hints and "share results" button
     const [isGameOver, setIsGameOver] = useState<boolean>(false);
     const [attempts, setAttempts] = useState<number>(1);
     const [msg, setMsg] = useState<string>("");
 
+    const fetchPlayer = async (username: string) => {
+        const response: Response = await fetch(`/players/${username}`);
+        const json = await response.json();
+
+        if (!response.ok) {
+            console.log(
+                `${username} properties fetch failed.`,
+                Promise.reject(response)
+            );
+            return;
+        }
+
+        return json[0];
+    };
+
     useEffect(() => {
         // fetch player list from api
         const fetchPlayers = async () => {
-            const response: Response = await fetch("/api/players");
-            const json = await response.json();
+            const response: Response = await fetch("/players");
+            const json: string[] = await response.json();
 
-            if (response.ok) {
-                for (const player of json) {
-                    setPlayerLookup(
-                        new Map(playerLookup.set(player.username, player))
-                    );
-                }
-                setInputOptions(
-                    json.map((player: PlayerProps) => player.username)
-                );
-                setSolution(
-                    json[getRandomInt(0, json.length, startOfToday().getTime())]
-                        .username
-                );
+            if (!response.ok) {
+                console.log("Username fetch failed.", Promise.reject(response));
+                return;
             }
-            setIsLoading(false);
+
+            const solIdx: number = getRandomInt(
+                0,
+                json.length,
+                startOfToday().getTime()
+            ); // index into the json array to determine the solution
+
+            const json2 = await fetchPlayer(json[solIdx]); // fetch solution details
+
+            setUsernames(json); // update states
+            setSolution(json[solIdx]);
+            setSolutionProps(json2);
         };
         fetchPlayers();
+        setIsLoading(false);
     }, []);
 
-    const handleInputSubmit = (inputText: string) => {
+    const handleInputSubmit = async (inputText: string) => {
         /* assumes inputText is valid in the player list
          */
         if (isGameOver) return; // guesses don't work after game ends
@@ -56,6 +75,9 @@ function PlayerDataGame() {
         if (curGuess === "") return; // can't submit empty guesses
         if (guessList.includes(curGuess)) return; // can't submit duplicate guesses
         setGuessList([...guessList, curGuess]);
+
+        const pp: PlayerProps = await fetchPlayer(curGuess);
+        setGuessProps([...guessProps, pp]);
 
         if (curGuess === solution) {
             setIsGameOver(true);
@@ -72,17 +94,17 @@ function PlayerDataGame() {
 
     return (
         <div className="PlayerDataGame">
-            {guessList.length > 0 && (
+            {guessList.length > 0 && ( // only show guess table when non-empty
                 <Table
-                    lookup={playerLookup}
                     guesses={guessList}
-                    solution={solution}
+                    guessProps={guessProps}
+                    guessHints={guessHints}
                 />
             )}
             {!isGameOver && !isLoading && (
                 <PlayerForm
                     onSubmit={handleInputSubmit}
-                    inputOptions={inputOptions}
+                    inputOptions={usernames}
                 />
             )}
             {isGameOver && (

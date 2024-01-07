@@ -12,7 +12,7 @@ type Props = {
 function Row({ guessNum, id, username, country, rank, playcount }: Props) {
     return (
         <tr>
-            <td>{guessNum + 1}</td>
+            <td>{guessNum}</td>
             <td>{username}</td>
             <td>{rank}</td>
             <td>{country}</td>
