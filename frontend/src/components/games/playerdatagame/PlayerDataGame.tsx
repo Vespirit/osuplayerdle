@@ -105,6 +105,15 @@ function PlayerDataGame() {
         }
     };
 
+    const copyResults = async () => {
+        await window.navigator.clipboard.writeText(
+            guessHints.reduce(
+                (acc, guessHint) => acc + guessHint.join("") + "\n",
+                "osu!playerdle results: \n"
+            ) + "Play at <url>"
+        );
+    };
+
     return (
         <div className="PlayerDataGame">
             {guessList.length > 0 && ( // only show guess table when non-empty
@@ -123,7 +132,9 @@ function PlayerDataGame() {
             {isGameOver && (
                 <div className="Popup">
                     <p>{msg}</p>
-                    <button>Share</button>
+                    <button id="shareButton" onClick={copyResults}>
+                        Share
+                    </button>
                 </div>
             )}
         </div>
