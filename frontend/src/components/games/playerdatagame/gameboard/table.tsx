@@ -3,12 +3,11 @@ import React from "react";
 import Row from "./row";
 //types
 import { PlayerProps } from "../../../../lib/types";
-import * as hints from "../../../../lib/hints";
 
 type Props = {
     guesses: string[];
     guessProps: PlayerProps[];
-    guessHints: string[];
+    guessHints: string[][];
 };
 
 function Table({ guesses, guessProps, guessHints }: Props) {
@@ -26,12 +25,12 @@ function Table({ guesses, guessProps, guessHints }: Props) {
                 {guessProps.map((guessProps: PlayerProps, i: number) => {
                     return (
                         <Row
-                            guessNum={i.toString()}
-                            id={guessProps.id + ""}
+                            guessNum={(i + 1).toString()}
+                            id={guessProps.id + guessHints[i][3]}
                             username={guessProps.username}
-                            country={guessProps.country}
-                            rank={guessProps.rank + ""}
-                            playcount={guessProps.playcount + ""}
+                            country={guessProps.country + guessHints[i][1]}
+                            rank={guessProps.rank + guessHints[i][0]}
+                            playcount={guessProps.playcount + guessHints[i][2]}
                         />
                     );
                 })}

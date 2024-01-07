@@ -9,17 +9,24 @@ import PlayerForm from "../../playerform/PlayerForm";
 import { startOfToday } from "date-fns";
 import { getRandomInt } from "../../../lib/random";
 import { PlayerProps } from "../../../lib/types";
+import hint from "./lib/hints";
 
 function PlayerDataGame() {
     const [isLoading, setIsLoading] = useState<boolean>(true); // state for if api is being fetched
 
     const [solution, setSolution] = useState<string>("");
-    const [solutionProps, setSolutionProps] = useState<PlayerProps>();
+    const [solutionProps, setSolutionProps] = useState<PlayerProps>({
+        id: 0,
+        username: "",
+        country: "",
+        playcount: 0,
+        rank: 0,
+    });
     const [usernames, setUsernames] = useState<string[]>([]); // list of usernames
 
     const [guessList, setGuessList] = useState<string[]>([]);
     const [guessProps, setGuessProps] = useState<PlayerProps[]>([]);
-    const [guessHints, setGuessHints] = useState<string[]>([]); // emojis used for guess hints and "share results" button
+    const [guessHints, setGuessHints] = useState<string[][]>([]); // emojis used for guess hints and "share results" button
     const [isGameOver, setIsGameOver] = useState<boolean>(false);
     const [attempts, setAttempts] = useState<number>(1);
     const [msg, setMsg] = useState<string>("");
@@ -46,7 +53,10 @@ function PlayerDataGame() {
             const json: string[] = await response.json();
 
             if (!response.ok) {
-                console.log("Username fetch failed.", Promise.reject(response));
+                console.log(
+                    "Username list fetch failed.",
+                    Promise.reject(response)
+                );
                 return;
             }
 
@@ -67,7 +77,7 @@ function PlayerDataGame() {
     }, []);
 
     const handleInputSubmit = async (inputText: string) => {
-        /* assumes inputText is valid in the player list
+        /* assumes inputText is valid in the username list
          */
         if (isGameOver) return; // guesses don't work after game ends
 
@@ -78,6 +88,9 @@ function PlayerDataGame() {
 
         const pp: PlayerProps = await fetchPlayer(curGuess);
         setGuessProps([...guessProps, pp]);
+
+        const sp: PlayerProps = solutionProps;
+        setGuessHints([...guessHints, hint(pp, sp)]);
 
         if (curGuess === solution) {
             setIsGameOver(true);
