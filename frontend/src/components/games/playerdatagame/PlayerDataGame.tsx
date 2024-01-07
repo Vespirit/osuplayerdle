@@ -41,8 +41,6 @@ function PlayerDataGame() {
                     json[getRandomInt(0, json.length, startOfToday().getTime())]
                         .username
                 );
-            } else {
-                console.error("Error fetching users");
             }
             setIsLoading(false);
         };
@@ -55,8 +53,8 @@ function PlayerDataGame() {
         if (isGameOver) return; // guesses don't work after game ends
 
         const curGuess = inputText.trim();
-        if (curGuess === "") return;
-        if (guessList.includes(curGuess)) return;
+        if (curGuess === "") return; // can't submit empty guesses
+        if (guessList.includes(curGuess)) return; // can't submit duplicate guesses
         setGuessList([...guessList, curGuess]);
 
         if (curGuess === solution) {
