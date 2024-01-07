@@ -1,7 +1,7 @@
 export const numberHint = (sol: number | undefined, p: number | undefined) => {
     if (!sol || !p) return ""; // if theyre undefined
 
-    if (sol == p) {
+    if (sol === p) {
         return "✅";
     } else if (sol > p) {
         return "⬆️";
@@ -11,7 +11,7 @@ export const numberHint = (sol: number | undefined, p: number | undefined) => {
 export const countryHint = (sol: string | undefined, p: string | undefined) => {
     if (!sol || !p) return ""; // if theyre undefined
 
-    if (sol == p) {
+    if (sol === p) {
         return "✅";
     } else return "❌";
 };
@@ -19,7 +19,7 @@ export const countryHint = (sol: string | undefined, p: string | undefined) => {
 export const rankHint = (sol: number | undefined, p: number | undefined) => {
     if (!sol || !p) return ""; // if theyre undefined
 
-    if (sol == p) {
+    if (sol === p) {
         return "✅";
     } else if (sol < p) {
         return "⬆️";
