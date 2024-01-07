@@ -21,6 +21,9 @@ function Table({ guesses, guessProps, guessHints }: Props) {
                     <td>Country</td>
                     <td>Playcount</td>
                     <td>ID</td>
+                    {
+                        // TODO: don't hardcode the table properties
+                    }
                 </tr>
                 {guessProps.map((guessProps: PlayerProps, i: number) => {
                     return (

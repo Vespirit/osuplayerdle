@@ -5,3 +5,4 @@ export type PlayerProps = {
     rank: number;
     playcount: number;
 };
+// TODO: make adding more properties easier
