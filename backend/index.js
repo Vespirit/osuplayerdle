@@ -10,11 +10,13 @@ app.use(cors());
 app.use(express.json());
 
 // routes
-// get all player usernames
+// get list of all player usernames
 app.get("/players", async (req, res) => {
     console.log(req.path, req.method);
     try {
-        const players = await pool.query("SELECT username FROM players");
+        const players = await pool.query(
+            "SELECT username FROM players ORDER BY rank ASC"
+        );
         res.json(players.rows.map((value) => value.username));
     } catch (err) {
         console.error(err.message);

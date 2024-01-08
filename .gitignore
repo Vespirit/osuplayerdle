@@ -8,6 +8,7 @@
 
 # testing
 /frontend/coverage
+/backend/db_local.js
 
 # production
 /frontend/build
